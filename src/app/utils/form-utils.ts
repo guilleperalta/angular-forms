@@ -26,7 +26,7 @@ export class FormUtils {
   }
 
   static isValidFieldInArray(formArray: FormArray, index: number): boolean | null {
-    return !!formArray.controls[index].valid && formArray.controls[index].touched
+    return formArray.controls[index].errors && formArray.controls[index].touched
   }
 
   static getFieldErrorInArray(formArray: FormArray, index: number): string | null {

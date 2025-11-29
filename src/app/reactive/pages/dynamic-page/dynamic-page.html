@@ -4,7 +4,7 @@
 <form
   autocomplete="off"
   [formGroup]="myForm"
-  (ngSubmit)="onSave()"
+  (ngSubmit)="onSubmit()"
 >
 
   <!-- Nombre -->
@@ -31,13 +31,19 @@
     <label class="col-sm-3 col-form-label">Agregar</label>
     <div class="col-sm-9">
       <div class="input-group">
+
         <input
           class="form-control"
           placeholder="Agregar favorito"
+          [formControl]="newFavorite"
+          (keydown.enter)="onAddToFavorites()"
+          (keydown.enter)=" $event.preventDefault() "
         >
+
         <button
           class="btn btn-outline-primary"
           type="button"
+          (click)="onAddToFavorites()"
         >
           Agregar favorito
         </button>
@@ -53,7 +59,7 @@
       class="col-sm-9"
       formArrayName="favoritesGames"
     >
-      @for (favoriteGame of favoritesGames.controls; track $index; let i = $index) {
+      @for (favoriteGame of favoritesGames.controls; track favoriteGame; let i = $index) {
       <div class="mb-1">
         <div class="input-group">
           <input
@@ -63,6 +69,7 @@
           <button
             class="btn btn-outline-danger"
             type="button"
+            (click)="onRemoveFromFavorites(i)"
           >
             Eliminar
           </button>
@@ -75,6 +82,11 @@
         }
 
       </div>
+      }
+      @if (formUtils.isValidField(myForm, 'favoritesGames')) {
+      <span class="form-text text-danger">
+        Debe de tener al menos 2 juegos favoritos
+      </span>
       }
     </div>
   </div>
@@ -101,5 +113,5 @@
 <br>
 
 <span>Agregar Juego</span>
-<!-- <pre>{{ myForm | json }}</pre>
-<pre>{{ myForm | json }}</pre> -->
+<pre>{{ myForm.controls['favoritesGames'].errors | json }}</pre>
+<pre>{{ myForm.controls['favoritesGames'].value | json }}</pre>
