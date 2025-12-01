@@ -1,7 +1,7 @@
 <h1 class="mt-3">Selectores anidados</h1>
 <hr />
 
-<form>
+<form [formGroup]="myForm">
   <!-- Region -->
   <div class="row mb-3">
     <div class="col">
@@ -12,9 +12,11 @@
       >
         <option value="">-- Seleccione Continente --</option>
 
-        <!-- <option [value]="region">
+        @for (region of regions(); track region){
+        <option [value]="region">
           {{ region }}
-        </option> -->
+        </option>
+        }
 
       </select>
     </div>
@@ -31,9 +33,11 @@
       >
         <option value="">-- Seleccione País --</option>
 
-        <!-- <option [value]="country.cca3">
-          {{ country.name }}
-        </option> -->
+        @for (country of countryByRegion(); track country.cca3){
+        <option [value]="country.cca3">
+          {{ country.name.common }}
+        </option>
+        }
 
       </select>
     </div>
@@ -51,10 +55,11 @@
       >
         <option value="">-- Seleccione la frontera --</option>
 
-
-        <!-- <option [value]="country.cca3">
-          {{ country.name }}
-        </option> -->
+        @for (country of borderCountries(); track country.cca3){
+        <option [value]="country.cca3">
+          {{ country.name.common }}
+        </option>
+        }
       </select>
     </div>
   </div>
@@ -65,4 +70,6 @@
 <code>
   <!-- {{ 'myForm.value' | json }} -->
 </code>
-<p>is form valid: {{ 'myForm.valid' }}</p>
+<p>is form valid: {{ myForm.valid }}</p>
+<p>Value:</p>
+<pre>{{ myForm.value | json }}</pre>
